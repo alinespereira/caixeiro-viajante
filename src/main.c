@@ -7,17 +7,17 @@
 int main()
 {
     MATRIZ *m;
+    int tamanho;
 
-    printf("teste");
+    scanf("%d\n", &tamanho);
     
-    m = matriz_criar(3);
-    matriz_imprimir(m);
+    m = matriz_criar(tamanho);
 
     matriz_preencher(m);
 
     matriz_imprimir(m);
 
-    matriz_limpar(&m);
+    matriz_limpar(m);
 
     return 0;
 }
