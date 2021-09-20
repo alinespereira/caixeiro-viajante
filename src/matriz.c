@@ -20,7 +20,7 @@ MATRIZ *matriz_criar(int tamanho)
         {
             m->dados[i] = (int *)malloc(tamanho * sizeof(int));
             for (int j = 0; j < tamanho; j++)
-                m->dados[i][j] = 1;
+                m->dados[i][j] = 0;
         }
     return m;
 }
@@ -32,21 +32,23 @@ int matriz_buscar_entrada(MATRIZ *m, int i, int j)
 
 bool matriz_preencher(MATRIZ *m)
 {
-    printf("%d\n", m->tamanho);
     if (m == NULL || m->tamanho == 0)
         return false;
 
     int linha, coluna, valor;
-    scanf ("%d %d %d\n", &linha, &coluna, &valor);
+    int counter = (m->tamanho * m->tamanho) - m->tamanho - 1;
 
-    printf("linha: %d\ncoluna: %d\nvalor: %d\n", linha, coluna, valor);
+    for (int i = 0; i < counter; i++)
+    {
+        scanf ("%d %d %d\n", &linha, &coluna, &valor);
 
-    if (linha > m->tamanho || coluna > m->tamanho)
-        return false;
-    m->dados[linha - 1][coluna -1] = valor;
-    
-    if (linha <= m->tamanho && coluna < m->tamanho - 1)
-        matriz_preencher(m);
+        if (linha > m->tamanho || coluna > m->tamanho)
+            {
+                printf ("Fora do escopo");
+                return false;
+            }
+        m->dados[linha - 1][coluna -1] = valor;
+    }
     
     return true;
 }
@@ -59,25 +61,20 @@ bool matriz_vazia (MATRIZ *m)
         return true;
 }
 
-void matriz_limpar (MATRIZ **m)
+void matriz_limpar (MATRIZ *m)
 {
-    if (!matriz_vazia(*m))
+    if (!matriz_vazia(m))
     {
-        for (int i = 0; i < (*m)->tamanho; i++)
+        for (int i = 0; i < m->tamanho; i++)
         {
-            /*for (int j = 0; j < (*m)->tamanho; j++)
-            {
-                free ((*m)->dados[i][j]);
-                (*m)->dados[i][j] = NULL;
-            }*/
-            free ((*m)->dados[i]);
-            (*m)->dados[i] = NULL;
+            free (m->dados[i]); 
+            m->dados[i] = NULL;
             printf ("Limpou a matriz\n");
         }
     }
     
-    free(*m);
-    *m = NULL;
+    free(m);
+    m = NULL;
     printf("limpou a struct");
 }
 
@@ -86,12 +83,7 @@ void matriz_imprimir(MATRIZ *m)
     for (int i = 0; i < m->tamanho; i++)
     {
         for (int j = 0; j < m->tamanho; j++)
-        {
-            if (i == j)
-                printf ("0 ");
-            else
-                printf ("%d ", m->dados[i][j]);
-        }
+            printf ("%d ", m->dados[i][j]);
         printf ("\n");
     }
     
