@@ -71,6 +71,8 @@ void matriz_limpar (MATRIZ *m)
             m->dados[i] = NULL;
             printf ("Limpou a matriz\n");
         }
+        free (m->dados);
+        m->dados = NULL;
     }
     
     free(m);
