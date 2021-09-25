@@ -28,7 +28,7 @@ clean:
 	rm -rf $(PROGRAM) $(OBJ_FILES)
 
 zip:
-	zip -r ponto-e-circulo.zip Makefile src include bin obj -x "*/*.o" -x "bin/main"
+	zip -r caixeiro-viajante.zip Makefile src include bin obj -x "*/*.o" -x "bin/main"
 
 valgrind: CFLAGS += -g
 valgrind: $(PROGRAM)
