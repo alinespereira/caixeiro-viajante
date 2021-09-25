@@ -11,6 +11,7 @@ OBJ_FILES := $(patsubst $(SRC)/%.c,$(OBJ)/%.o,$(SRC_FILES))
 PROGRAM   := $(BIN)/main
 
 CFLAGS    := -I$(INCLUDE) -Wall -Wpedantic -std=c99 -lm
+LEAKFLAGS := --leak-check=full --show-leak-kinds=all --track-origins=yes
 
 all: $(PROGRAM)
 
@@ -28,3 +29,7 @@ clean:
 
 zip:
 	zip -r ponto-e-circulo.zip Makefile src include bin obj -x "*/*.o" -x "bin/main"
+
+valgrind: CFLAGS += -g
+valgrind: $(PROGRAM)
+	valgrind $(LEAKFLAGS) $(PROGRAM)

@@ -25,9 +25,14 @@ MATRIZ *matriz_criar(int tamanho)
     return m;
 }
 
-int matriz_buscar_entrada(MATRIZ *m, int i, int j)
+int matriz_get_entrada(MATRIZ *m, int i, int j)
 {
-    return m->dados[i * m->tamanho + j];
+    return m->dados[i][j];
+}
+
+void matriz_set_entrada(MATRIZ *m, int i, int j, int valor)
+{
+    m->dados[i][j] = valor;
 }
 
 bool matriz_preencher(MATRIZ *m)
