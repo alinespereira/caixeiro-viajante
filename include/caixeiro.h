@@ -1,6 +1,8 @@
 #ifndef _CAIXEIRO_H
 #define _CAIXEIRO_H
 
+#include <stdio.h>
+
 #include "matriz.h"
 #include "vetor.h"
 
