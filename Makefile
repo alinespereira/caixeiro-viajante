@@ -25,3 +25,6 @@ run: $(PROGRAM)
 
 clean:
 	rm -rf $(PROGRAM) $(OBJ_FILES)
+
+zip:
+	zip -r ponto-e-circulo.zip Makefile src include bin obj -x "*/*.o" -x "bin/main"
