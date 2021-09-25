@@ -2,22 +2,15 @@
 
 #include "adjacence-list.h"
 #include "matriz.h"
-#include <stdio.h>
+#include "caixeiro.h"
 
 int main()
-{
-    MATRIZ *m;
-    int tamanho;
+{   
+    MATRIZ *distancias = caixeiro_ler_dados();
 
-    scanf("%d\n", &tamanho);
-    
-    m = matriz_criar(tamanho);
+    matriz_imprimir(distancias);
 
-    matriz_preencher(m);
-
-    matriz_imprimir(m);
-
-    matriz_limpar(m);
+    matriz_limpar(distancias);
 
     return 0;
 }
