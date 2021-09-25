@@ -1,6 +1,5 @@
 #include "caixeiro.h"
 
-
 struct _caminho
 {
     VETOR *cidades;
@@ -28,7 +27,7 @@ MATRIZ *caixeiro_ler_dados()
             printf("Fora do escopo");
             return NULL;
         }
-        matriz_set_entrada (m, linha - 1, coluna - 1, valor);
+        matriz_set_entrada(m, linha - 1, coluna - 1, valor);
     }
 
     return m;
