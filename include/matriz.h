@@ -6,6 +6,7 @@
 typedef struct _matriz MATRIZ;
 
 MATRIZ *matriz_criar(int tamanho);
+int matriz_get_tamanho(MATRIZ *m);
 int matriz_get_entrada(MATRIZ *m, int i, int j);
 void matriz_set_entrada(MATRIZ *m, int i, int j, int valor);
 bool matriz_preencher(MATRIZ *m);

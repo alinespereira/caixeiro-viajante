@@ -25,6 +25,11 @@ MATRIZ *matriz_criar(int tamanho)
     return m;
 }
 
+int matriz_get_tamanho(MATRIZ *m)
+{
+    return m->tamanho;
+}
+
 int matriz_get_entrada(MATRIZ *m, int i, int j)
 {
     return m->dados[i][j];
@@ -82,7 +87,7 @@ void matriz_limpar(MATRIZ *m)
 
     free(m);
     m = NULL;
-    printf("limpou a struct");
+    printf("Limpou a struct\n");
 }
 
 void matriz_imprimir(MATRIZ *m)
