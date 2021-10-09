@@ -10,7 +10,7 @@ OBJ_FILES := $(patsubst $(SRC)/%.c,$(OBJ)/%.o,$(SRC_FILES))
 
 PROGRAM   := $(BIN)/main
 
-CFLAGS    := -I$(INCLUDE) -Wall -Wpedantic -std=c99 -lm
+CFLAGS    := -I$(INCLUDE) -Wall -Wpedantic -std=c99
 LEAKFLAGS := --leak-check=full --show-leak-kinds=all --track-origins=yes
 
 all: $(PROGRAM)
