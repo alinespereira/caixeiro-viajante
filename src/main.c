@@ -1,11 +1,10 @@
 #include <stdio.h>
 
-#include "vetor.h"
-#include "matriz.h"
 #include "caixeiro.h"
+#include "matriz.h"
+#include "vetor.h"
 
-int main()
-{
+int main() {
     MATRIZ *distancias = caixeiro_ler_dados();
     int n_caminhos = 0;
     CAMINHO **caminho = NULL;

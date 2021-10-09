@@ -2,7 +2,7 @@
 #define _CAIXEIRO_H
 
 #include <stdio.h>
-#include <stdlib.h
+#include <stdlib.h>
 
 #include "matriz.h"
 #include "vetor.h"

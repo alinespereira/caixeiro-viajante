@@ -1,10 +1,10 @@
 #ifndef _VETOR_H
 #define _VETOR_H
 
+#include <limits.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
-#include <limits.h>
 
 typedef struct _vetor VETOR;
 
