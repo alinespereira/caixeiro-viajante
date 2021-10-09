@@ -1,18 +1,15 @@
 #include "vetor.h"
 
-struct _vetor
-{
+struct _vetor {
     int *dados;
     int tamanho;
 };
 
-VETOR *vetor_criar(int tamanho)
-{
+VETOR *vetor_criar(int tamanho) {
     VETOR *v = (VETOR *)malloc(sizeof(VETOR));
 
     // Tratar erro (?)
-    if (v != NULL)
-    {
+    if (v != NULL) {
         v->dados = (int *)malloc(tamanho * sizeof(int));
         v->tamanho = tamanho;
     }
@@ -23,8 +20,7 @@ VETOR *vetor_criar(int tamanho)
     return NULL;
 }
 
-VETOR *vetor_copiar(VETOR *v)
-{
+VETOR *vetor_copiar(VETOR *v) {
     VETOR *tmp = vetor_criar(v->tamanho);
 
     for (int i = 0; i < v->tamanho; i++)
@@ -33,18 +29,15 @@ VETOR *vetor_copiar(VETOR *v)
     return tmp;
 }
 
-int vetor_get_tamanho(VETOR *v)
-{
+int vetor_get_tamanho(VETOR *v) {
     if (v != NULL)
         return v->tamanho;
 
     return INT_MIN;
 }
 
-bool vetor_set_elemento(VETOR *v, int indice, int valor)
-{
-    if (indice < v->tamanho)
-    {
+bool vetor_set_elemento(VETOR *v, int indice, int valor) {
+    if (indice < v->tamanho) {
         v->dados[indice] = valor;
         return true;
     }
@@ -52,13 +45,11 @@ bool vetor_set_elemento(VETOR *v, int indice, int valor)
     return false;
 }
 
-int vetor_get_elemento(VETOR *v, int indice)
-{
+int vetor_get_elemento(VETOR *v, int indice) {
     return v->dados[indice];
 }
 
-bool vetor_push_elemento(VETOR *v, int valor)
-{
+bool vetor_push_elemento(VETOR *v, int valor) {
     v->dados = (int *)realloc(v->dados, (v->tamanho + 1) * sizeof(int));
     if (v->dados == NULL)
         return false;
@@ -68,8 +59,7 @@ bool vetor_push_elemento(VETOR *v, int valor)
     return true;
 }
 
-int vetor_pop_elemento(VETOR *v)
-{
+int vetor_pop_elemento(VETOR *v) {
     int valor = vetor_get_elemento(v, v->tamanho - 1);
     v->tamanho--;
     v->dados = (int *)realloc(v->dados, v->tamanho * sizeof(int));
@@ -80,15 +70,13 @@ int vetor_pop_elemento(VETOR *v)
     return valor;
 }
 
-VETOR *vetor_remover_elemento(VETOR *v, int indice)
-{
+VETOR *vetor_remover_elemento(VETOR *v, int indice) {
     VETOR *tmp = vetor_copiar(v);
 
     if (indice >= tmp->tamanho)
         return NULL;
 
-    for (int i = indice; i < tmp->tamanho - 1; i++)
-    {
+    for (int i = indice; i < tmp->tamanho - 1; i++) {
         int proximo = tmp->dados[i + 1];
         tmp->dados[indice] = proximo;
     }
@@ -99,14 +87,12 @@ VETOR *vetor_remover_elemento(VETOR *v, int indice)
     return tmp;
 }
 
-void vetor_imprimir(VETOR *v)
-{
+void vetor_imprimir(VETOR *v) {
     printf("\t\tvetor: [%d", vetor_get_elemento(v, 0));
     for (int i = 1; i < v->tamanho; i++)
         printf(", %d", vetor_get_elemento(v, i));
     printf("]\n");
 }
 
-void vetor_apagar(VETOR **v)
-{
+void vetor_apagar(VETOR **v) {
 }

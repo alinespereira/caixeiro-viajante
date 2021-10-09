@@ -19,6 +19,8 @@ int main()
 
     caixeiro_calcular_caminhos(distancias, disponiveis, caminho, &n_caminhos);
 
+    matriz_imprimir(distancias);
+
     matriz_limpar(distancias);
 
     return 0;
