@@ -1,26 +1,23 @@
 #include <stdio.h>
+#include <stdlib.h>
 
-#include "caixeiro.h"
-#include "matriz.h"
-#include "vetor.h"
+#include "adjacencia.h"
+#include "vertice.h"
 
 int main() {
-    MATRIZ *distancias = caixeiro_ler_dados();
-    int n_caminhos = 0;
-    CAMINHO **caminho = NULL;
-    int n_cidades = matriz_get_tamanho(distancias);
-    VETOR *disponiveis = vetor_criar(n_cidades - 1);
+    int n_cidades;
+    ADJACENCIA *custos = adjacencia_criar();
+    int origem, destino, custo;
 
-    for (int i = 1; i < n_cidades; i++)
-        vetor_set_elemento(disponiveis, i - 1, i);
+    scanf("%d", &n_cidades);
+    printf("cidades: %d\n", n_cidades);
+    while (scanf("%d %d %d", &origem, &destino, &custo) != EOF) {
+        VERTICE *v = vertice_criar(origem, destino, custo);
+        if (!adjacencia_adicionar_vertice(custos, v)) {
+            exit(EXIT_FAILURE);
+        }
+    }
 
-    matriz_imprimir(distancias);
-
-    caixeiro_calcular_caminhos(distancias, disponiveis, caminho, &n_caminhos);
-
-    matriz_imprimir(distancias);
-
-    matriz_limpar(distancias);
-
-    return 0;
+    adjacencia_imprimir(custos);
+    return EXIT_SUCCESS;
 }
