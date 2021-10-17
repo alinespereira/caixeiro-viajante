@@ -5,28 +5,20 @@ struct _caminho {
     int custo;
 };
 
-MATRIZ *caixeiro_ler_dados() {
-    int tamanho;
-    MATRIZ *m = NULL;
+ADJACENCIA *caixeiro_ler_custos() {
+    ADJACENCIA *custos = adjacencia_criar();
 
-    scanf("%d\n", &tamanho);
-
-    m = matriz_criar(tamanho);
-
-    int linha, coluna, valor;
-    int contador = (tamanho * tamanho) - tamanho;
-
-    for (int i = 0; i < contador; i++) {
-        scanf("%d %d %d\n", &linha, &coluna, &valor);
-
-        if (linha > tamanho || coluna > tamanho) {
-            printf("Fora do escopo");
-            return NULL;
+    if (custos) {
+        int origem, destino, custo;
+        while (scanf("%d %d %d", &origem, &destino, &custo) != EOF) {
+            ARESTA *v = aresta_criar(origem, destino, custo);
+            if (!adjacencia_adicionar_aresta(custos, v)) {
+                exit(EXIT_FAILURE);
+            }
         }
-        matriz_set_entrada(m, linha - 1, coluna - 1, valor);
     }
 
-    return m;
+    return custos;
 }
 
 CAMINHO *caixeiro_criar_caminho(int n_cidades) {
@@ -37,7 +29,7 @@ CAMINHO *caixeiro_criar_caminho(int n_cidades) {
     return c;
 }
 
-void caixeiro_calcular_caminhos(MATRIZ *custos, VETOR *disponiveis, CAMINHO **caminho, int *n_caminhos) {
+void caixeiro_calcular_caminhos(ADJACENCIA *custos, VETOR *disponiveis, CAMINHO **caminho, int *n_caminhos) {
     printf("--------------------------------------------------------------------------------\n");
     printf("calcular novo caminho?\n");
     printf("início: cidades disponiveis = %d\n", vetor_get_tamanho(disponiveis));
@@ -75,7 +67,7 @@ void caixeiro_calcular_caminhos(MATRIZ *custos, VETOR *disponiveis, CAMINHO **ca
     }
 }
 
-int caixeiro_calcular_distancia(MATRIZ *custos, CAMINHO *caminho) {
+int caixeiro_calcular_distancia(ADJACENCIA *custos, CAMINHO *caminho) {
     return 0;
 }
 
