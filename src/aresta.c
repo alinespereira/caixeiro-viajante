@@ -69,3 +69,8 @@ void aresta_imprimir(ARESTA *v) {
         printf("custo(%d, %d) = %d\n", aresta_get_p1(v), aresta_get_p2(v), aresta_get_custo(v));
     }
 }
+
+void aresta_apagar(ARESTA *a){
+    free(a);
+    a = NULL;
+}
