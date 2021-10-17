@@ -96,15 +96,29 @@ bool lista_remover(LISTA *lista, int chave) {
     return false;
 }
 
+ITEM *lista_get_inicio(LISTA *lista) {
+    return lista->inicio;
+}
+
+ITEM *lista_get_proximo(LISTA *lista, ITEM *item) {
+    if (lista) {
+        for (NO *no = lista->inicio; no != NULL; no = no->proximo) {
+            if (item_get_chave(no->item) == item_get_chave(item)) {
+                return no->proximo->item;
+            }
+        }
+    }
+}
+
 ITEM *lista_busca(LISTA *lista, int chave) {
     if (lista) {
-        for (NO *no = lista->inicio; no != lista->fim; no = no->proximo) {
+        for (NO *no = lista->inicio; no != NULL; no = no->proximo) {
             if (item_get_chave(no->item) == chave) {
                 return no->item;
             }
         }
     }
-    return false;
+    return NULL;
 }
 
 int lista_tamanho(LISTA *lista) {
