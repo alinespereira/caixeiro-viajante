@@ -1,3 +1,4 @@
+#if 0
 #include "vetor.h"
 
 struct _vetor {
@@ -108,3 +109,4 @@ void vetor_apagar(VETOR **v) {
     free(*v);
     v = NULL;
 }
+#endif

@@ -1,5 +1,6 @@
 #include "item.h"
 
+#include <limits.h>
 #include <stdlib.h>
 
 struct _item {
@@ -20,7 +21,17 @@ void item_apagar(ITEM *item) {
 }
 
 int item_get_chave(ITEM *item) {
-    return item->chave;
+    if (item) {
+        return item->chave;
+    }
+    return INT_MAX;
+}
+
+int item_get_valor(ITEM *item) {
+    if (item) {
+        return item->chave;
+    }
+    return INT_MAX;
 }
 
 void item_imprimir(ITEM *item) {

@@ -1,3 +1,4 @@
+#if 0
 #ifndef _VETOR_H
 #define _VETOR_H
 
@@ -20,4 +21,5 @@ void vetor_imprimir(VETOR *v);
 bool vetor_vazio(VETOR *v);
 void vetor_apagar(VETOR **v);
 
+#endif
 #endif

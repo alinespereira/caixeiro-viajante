@@ -1,7 +1,9 @@
 #include "caixeiro.h"
 
+#include <limits.h>
+
 struct _caminho {
-    VETOR *cidades;
+    LISTA *cidades;
     int custo;
 };
 
@@ -12,59 +14,78 @@ ADJACENCIA *caixeiro_ler_custos() {
         int origem, destino, custo;
         while (scanf("%d %d %d", &origem, &destino, &custo) != EOF) {
             ARESTA *v = aresta_criar(origem, destino, custo);
-            if (!adjacencia_adicionar_aresta(custos, v)) {
-                exit(EXIT_FAILURE);
-            }
+            adjacencia_adicionar_aresta(custos, v);
+            adjacencia_imprimir(custos);
+            scanf("%*[\n\r]s");
         }
     }
 
     return custos;
 }
 
-CAMINHO *caixeiro_criar_caminho(int n_cidades) {
+CAMINHO *caixeiro_criar_caminho() {
     CAMINHO *c = (CAMINHO *)malloc(sizeof(CAMINHO));
-    c->cidades = vetor_criar(n_cidades);
-    c->custo = INT_MAX;
+    if (c) {
+        c->cidades = NULL;
+        c->custo = INT_MAX;
+    }
 
     return c;
 }
 
-void caixeiro_calcular_caminhos(ADJACENCIA *custos, VETOR *disponiveis, CAMINHO **caminho, int *n_caminhos) {
-    printf("--------------------------------------------------------------------------------\n");
-    printf("calcular novo caminho?\n");
-    printf("início: cidades disponiveis = %d\n", vetor_get_tamanho(disponiveis));
-    if (vetor_get_tamanho(disponiveis) == matriz_get_tamanho(custos) - 1) {
-        printf("criar caminho; cidades disponiveis = %d\n", vetor_get_tamanho(disponiveis));
-        (*n_caminhos)++;
-        caminho = (CAMINHO **)realloc(caminho, (*n_caminhos) * sizeof(CAMINHO *));
-        caminho[(*n_caminhos) - 1] = caixeiro_criar_caminho(1);
-        vetor_set_elemento(caminho[(*n_caminhos) - 1]->cidades, 0, 0);
+LISTA *caminho_get_cidades(CAMINHO *caminho) {
+    if (caminho) {
+        return caminho->cidades;
     }
+    return NULL;
+}
 
-    if (vetor_get_tamanho(disponiveis) > 0) {
-        printf("--------------------------------------------------------------------------------\n");
-        printf("\tdisponíveis\n");
-        vetor_imprimir(disponiveis);
-        printf("\trecursão; cidades disponiveis = %d\n", vetor_get_tamanho(disponiveis));
-        printf("\tcaminhos calculados = %d\n", *n_caminhos);
-        for (int i = 0; i < vetor_get_tamanho(disponiveis); i++) {
-            int proxima = vetor_get_elemento(disponiveis, i);
-            printf("\t\tproxima: %d\n", proxima);
-            vetor_push_elemento(caminho[*n_caminhos - 1]->cidades, proxima);
-            vetor_imprimir(caminho[*n_caminhos - 1]->cidades);
-            VETOR *curr_disponiveis = vetor_remover_elemento(disponiveis, i);
-            printf("\t>>> antes recursão; cidades disponiveis (curr) = %d\n", vetor_get_tamanho(curr_disponiveis));
-            caixeiro_calcular_caminhos(custos, curr_disponiveis, caminho, n_caminhos);
-            printf("\t>>> após recursão; cidades disponiveis = %d\n", vetor_get_tamanho(disponiveis));
-            printf("\t>>> caminhos calculados = %d\n", *n_caminhos);
-        }
-    } else {
-        printf("--------------------------------------------------------------------------------\n");
-        printf("fim da recursão; cidades disponiveis = %d\n", vetor_get_tamanho(disponiveis));
-        int curr_distancia = caixeiro_calcular_distancia(custos, caminho[*n_caminhos - 1]);
-        caminho[*n_caminhos - 1]->custo = curr_distancia;
-        caixeiro_imprimir_caminho(caminho[*n_caminhos - 1]);
+bool caminho_set_cidades(CAMINHO *caminho, LISTA *cidades) {
+    if (caminho && cidades) {
+        caminho->cidades = cidades;
+        return true;
     }
+    return false;
+}
+
+int caminho_get_custo(CAMINHO *caminho) {
+    if (caminho) {
+        return caminho->custo;
+    }
+    return INT_MAX;
+}
+bool caminho_set_custo(CAMINHO *caminho, int custo) {
+    if (caminho) {
+        caminho->custo = custo;
+        return true;
+    }
+    return false;
+}
+
+void caixeiro_calcular_caminhos(ADJACENCIA *custos, int n_cidades, LISTA *atual, LISTA *disponiveis, CAMINHO *melhor_caminho) {
+    ITEM *proximo = lista_get_inicio(disponiveis);
+
+    do {
+        lista_inserir_fim(atual, proximo);
+        printf("Disponíveis:\n");
+        lista_imprimir(disponiveis);
+        printf("------------\n");
+        lista_remover(disponiveis, item_get_chave(proximo));
+        printf("Caminho atual:\n");
+        lista_imprimir(atual);
+        printf("--------------\n");
+        if (lista_tamanho(atual) == n_cidades) {
+            int nova_distancia = caixeiro_calcular_distancia(custos, melhor_caminho);
+            if (nova_distancia != INT_MAX && nova_distancia < caminho_get_custo(melhor_caminho)) {
+                caminho_set_cidades(melhor_caminho, atual);
+                caminho_set_custo(melhor_caminho, nova_distancia);
+            }
+        } else {
+            caixeiro_calcular_caminhos(custos, n_cidades, atual, disponiveis, melhor_caminho);
+            lista_inserir_fim(atual, proximo);
+            proximo = lista_get_proximo(disponiveis, proximo);
+        }
+    } while (item_get_chave(proximo) < n_cidades);
 }
 
 int caixeiro_calcular_distancia(ADJACENCIA *custos, CAMINHO *caminho) {
@@ -72,10 +93,10 @@ int caixeiro_calcular_distancia(ADJACENCIA *custos, CAMINHO *caminho) {
 }
 
 void caixeiro_imprimir_caminho(CAMINHO *caminho) {
-    int n_cidades = vetor_get_tamanho(caminho->cidades);
-    printf("caminho: %d", vetor_get_elemento(caminho->cidades, 0) + 1);
+    int n_cidades = lista_tamanho(caminho->cidades);
+    printf("caminho: %d", item_get_valor(lista_busca(caminho->cidades, 0)));
     for (int i = 1; i < n_cidades; i++) {
-        printf(" -> %d", vetor_get_elemento(caminho->cidades, i) + 1);
+        printf(" -> %d", item_get_valor(lista_busca(caminho->cidades, i)));
     }
     printf(": distancia = %d\n", caminho->custo);
 }
