@@ -15,5 +15,6 @@ bool aresta_set_custo(ARESTA *aresta, int custo);
 int aresta_get_custo(ARESTA *aresta);
 bool aresta_mesmo_trajeto(ARESTA *v1, int p1, int p2);
 void aresta_imprimir(ARESTA *v);
+void aresta_apagar(ARESTA *a);
 
 #endif
