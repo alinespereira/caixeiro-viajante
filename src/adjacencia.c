@@ -60,13 +60,12 @@ bool adjacencia_vazia(ADJACENCIA *a) {
 }
 
 void adjacencia_apagar(ADJACENCIA **a) {
-    if (!((a == NULL) || adjacencia_vazia(*a))) 
-    {
+    if (!((a == NULL) || adjacencia_vazia(*a))) {
         for (int i = 0; i < (*a)->n_arestas; i++)
             aresta_apagar((*a)->arestas[i]);
-        
+
         free((*a)->arestas);
-        (*a)->arestas= NULL;    
+        (*a)->arestas = NULL;
     }
 
     free(*a);
