@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 #include "adjacencia.h"
-#include "vertice.h"
+#include "aresta.h"
 
 int main() {
     int n_cidades;
@@ -12,8 +12,8 @@ int main() {
     scanf("%d", &n_cidades);
     printf("cidades: %d\n", n_cidades);
     while (scanf("%d %d %d", &origem, &destino, &custo) != EOF) {
-        VERTICE *v = vertice_criar(origem, destino, custo);
-        if (!adjacencia_adicionar_vertice(custos, v)) {
+        ARESTA *v = aresta_criar(origem, destino, custo);
+        if (!adjacencia_adicionar_aresta(custos, v)) {
             exit(EXIT_FAILURE);
         }
     }
