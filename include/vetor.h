@@ -17,6 +17,7 @@ bool vetor_push_elemento(VETOR *v, int valor);
 int vetor_pop_elemento(VETOR *v);
 VETOR *vetor_remover_elemento(VETOR *v, int indice);
 void vetor_imprimir(VETOR *v);
+bool vetor_vazio(VETOR *v);
 void vetor_apagar(VETOR **v);
 
 #endif

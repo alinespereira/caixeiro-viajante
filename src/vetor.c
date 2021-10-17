@@ -94,5 +94,17 @@ void vetor_imprimir(VETOR *v) {
     printf("]\n");
 }
 
+bool vetor_vazio(VETOR *v) {
+    return (v->dados == NULL || v->tamanho == 0);
+}
+
 void vetor_apagar(VETOR **v) {
+    if (!((v == NULL) || vetor_vazio(*v))) 
+    {
+        free((*v)->dados);
+        (*v)->dados = NULL;    
+    }
+
+    free(*v);
+    v = NULL;
 }
