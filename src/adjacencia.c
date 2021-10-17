@@ -54,3 +54,21 @@ void adjacencia_imprimir(ADJACENCIA *a) {
             vertice_imprimir(a->vertices[i]);
     }
 }
+
+bool adjacencia_vazia(ADJACENCIA *a) {
+    return (a->vertices == NULL || a->n_vertices == 0);
+}
+
+void adjacencia_apagar(ADJACENCIA **a) {
+    if (!((a == NULL) || adjacencia_vazia(*a))) 
+    {
+        for (int i = 0; i < (*a)->n_vertices; i++)
+            vertice_apagar((*a)->vertices[i]);
+        
+        free((*a)->vertices);
+        (*a)->vertices= NULL;    
+    }
+
+    free(*a);
+    a = NULL;
+}

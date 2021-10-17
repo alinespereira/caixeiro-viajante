@@ -95,7 +95,7 @@ void vetor_imprimir(VETOR *v) {
 }
 
 bool vetor_vazio(VETOR *v) {
-    return (v->dados == NULL || v->tamanho > 0);
+    return (v->dados == NULL || v->tamanho == 0);
 }
 
 void vetor_apagar(VETOR **v) {
