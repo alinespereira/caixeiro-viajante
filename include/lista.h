@@ -10,6 +10,7 @@ typedef struct _lista LISTA;
 
 LISTA *lista_criar();
 bool lista_inserir_fim(LISTA *lista, ITEM *item);
+ITEM *lista_buscar_posicao(LISTA *lista, int pos);
 bool lista_inserir_posicao(LISTA *lista, ITEM *item, int pos);
 void lista_apagar(LISTA **lista);
 bool lista_limpar(LISTA *lista);

@@ -47,6 +47,26 @@ bool lista_inserir_fim(LISTA *lista, ITEM *item) {
     return false;
 }
 
+ITEM *lista_buscar_posicao(LISTA *lista, int pos) {
+    if (!lista || pos >= lista_tamanho(lista))
+        return false;
+
+    lista->tamanho--;
+    if (pos == 0) {
+        lista->inicio = lista->inicio->proximo;
+        return lista->inicio->item;
+    } else {
+        NO *prev = lista->inicio;
+        for (int i = 0; i < pos; i++) {
+            prev = prev->proximo;
+        }
+        prev->proximo = prev->proximo->proximo;
+        return prev->proximo->item;
+    }
+
+    return false;
+}
+
 bool lista_inserir_posicao(LISTA *lista, ITEM *item, int pos) {
     if (!lista || !item || pos >= lista_tamanho(lista))
         return false;
