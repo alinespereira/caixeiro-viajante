@@ -78,27 +78,27 @@ void caixeiro_calcular_caminhos(ADJACENCIA *custos, int n_cidades, LISTA *atual,
     } else {
         // printf("ainda nao\n");
         for (int i = 0; i < lista_tamanho(disponiveis); i++) {
-            /*printf("i: %d\n", i);         // REMOVER
-            lista_imprimir(disponiveis);  // REMOVER*/
+            printf("i: %d\n", i);         // REMOVER
+            lista_imprimir(disponiveis);  // REMOVER
             ITEM *proximo = lista_buscar_posicao(disponiveis, i);
-            /*printf("--\n");          // REMOVER
+            printf("--\n");          // REMOVER
             item_imprimir(proximo);  // REMOVER
-            printf("--\n");          // REMOVER*/
+            printf("--\n");          // REMOVER
             lista_inserir_fim(atual, proximo);
-            /*lista_imprimir(atual);             // REMOVER
-            printf("--------------------\n");  // REMOVER*/
+            lista_imprimir(atual);             // REMOVER
+            printf("--------------------\n");  // REMOVER
             caixeiro_calcular_caminhos(custos, n_cidades, atual, disponiveis, melhor_caminho);
-            //printf("past here\n");  // REMOVER
+            printf("past here\n");  // REMOVER
             if (lista_tamanho(disponiveis) == 0) {
                 lista_inserir_fim(disponiveis, proximo);
             } else {
                 lista_inserir_posicao(disponiveis, proximo, i);
             }
             lista_remover(atual, item_get_chave(proximo));
-/*            lista_imprimir(disponiveis);                           // REMOVER
+            lista_imprimir(disponiveis);                           // REMOVER
             printf("\n");                                          // REMOVER
             lista_imprimir(atual);                                 // REMOVER
-            printf("----------------------------------------\n");  // REMOVER*/
+            printf("----------------------------------------\n");  // REMOVER
         }
     }
 
