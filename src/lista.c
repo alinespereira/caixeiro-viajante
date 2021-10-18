@@ -51,20 +51,34 @@ ITEM *lista_buscar_posicao(LISTA *lista, int pos) {
     if (!lista || pos >= lista_tamanho(lista))
         return false;
 
-    lista->tamanho--;
+    NO *no;
     if (pos == 0) {
-        lista->inicio = lista->inicio->proximo;
-        return lista->inicio->item;
+        no = lista->inicio;
+        if (lista_tamanho(lista) == 0) {
+            lista->inicio = NULL;
+            lista->fim = NULL;
+        } else {
+            lista->inicio = lista->inicio->proximo;
+        }
     } else {
         NO *prev = lista->inicio;
         for (int i = 0; i < pos; i++) {
             prev = prev->proximo;
         }
-        prev->proximo = prev->proximo->proximo;
-        return prev->proximo->item;
+        no = prev;
+        if (pos == lista_tamanho(lista) - 1) {
+            prev->proximo = NULL;
+        } else {
+            prev->proximo = prev->proximo->proximo;
+        }
     }
 
-    return false;
+    if (no) {
+        lista->tamanho--;
+        return no->item;
+    } else {
+        return NULL;
+    }
 }
 
 bool lista_inserir_posicao(LISTA *lista, ITEM *item, int pos) {
@@ -138,6 +152,7 @@ ITEM *lista_remover(LISTA *lista, int chave) {
             } else {
                 prev->proximo = curr;
             }
+            lista->tamanho--;
             return curr->item;
         }
     }
@@ -151,7 +166,7 @@ ITEM *lista_get_inicio(LISTA *lista) {
 ITEM *lista_get_proximo(LISTA *lista, ITEM *item) {
     if (lista) {
         for (NO *no = lista->inicio; no != NULL; no = no->proximo) {
-            if (item_get_chave(no->item) == item_get_chave(item)) {
+            if (no->item == item) {
                 return no->proximo->item;
             }
         }

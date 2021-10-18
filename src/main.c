@@ -23,9 +23,8 @@ int main() {
 
     CAMINHO *melhor_caminho = caixeiro_criar_caminho();
     caixeiro_calcular_caminhos(custos, n_cidades, atual, disponiveis, melhor_caminho);
-    caixeiro_imprimir_caminho(melhor_caminho);
+    // caixeiro_imprimir_caminho(melhor_caminho);
 
-    adjacencia_imprimir(custos);
     adjacencia_apagar(&custos);
     return EXIT_SUCCESS;
 }
