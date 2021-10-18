@@ -1,6 +1,7 @@
 #include "item.h"
 
 #include <limits.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 struct _item {
@@ -29,10 +30,11 @@ int item_get_chave(ITEM *item) {
 
 int item_get_valor(ITEM *item) {
     if (item) {
-        return item->chave;
+        return item->valor;
     }
     return INT_MAX;
 }
 
 void item_imprimir(ITEM *item) {
+    printf("[%d] %d\n", item_get_chave(item), item_get_valor(item));
 }

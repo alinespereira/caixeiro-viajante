@@ -28,7 +28,7 @@ LISTA *lista_criar() {
 }
 
 bool lista_inserir_fim(LISTA *lista, ITEM *item) {
-    if (!lista)
+    if (!lista || !item)
         return false;
 
     NO *no = (NO *)malloc(sizeof(NO));
@@ -41,6 +41,33 @@ bool lista_inserir_fim(LISTA *lista, ITEM *item) {
             lista->fim->proximo = no;
         }
         lista->fim = no;
+        lista->tamanho++;
+        return true;
+    }
+    return false;
+}
+
+bool lista_inserir_posicao(LISTA *lista, ITEM *item, int pos) {
+    if (!lista || !item || pos >= lista_tamanho(lista))
+        return false;
+
+    NO *no = (NO *)malloc(sizeof(NO));
+    if (no) {
+        no->item = item;
+        if (pos == 0) {
+            no->proximo = lista->inicio;
+            lista->inicio = no;
+        } else if (pos == lista_tamanho(lista) - 1) {
+            lista->fim = no;
+            no->proximo = NULL;
+        } else {
+            NO *prev = lista->inicio;
+            for (int i = 0; i < pos; i++) {
+                prev = prev->proximo;
+            }
+            no->proximo = prev->proximo;
+            prev->proximo = no;
+        }
         lista->tamanho++;
         return true;
     }
@@ -72,13 +99,13 @@ bool lista_limpar(LISTA *lista) {
     }
 }
 
-bool lista_remover(LISTA *lista, int chave) {
+ITEM *lista_remover(LISTA *lista, int chave) {
     if (lista) {
         NO *prev = NULL;
         NO *curr = lista->inicio;
 
         while ((item_get_chave(curr->item) != chave && curr)) {
-            NO *prev = curr;
+            prev = curr;
             curr = curr->proximo;
         }
 
@@ -86,18 +113,19 @@ bool lista_remover(LISTA *lista, int chave) {
             if (curr == lista->fim) {
                 lista->fim = prev;
             }
-            prev->proximo = curr->proximo;
-            item_apagar(curr->item);
-            free(curr);
-            curr = NULL;
-            return true;
+            if (!prev) {
+                lista->inicio = curr;
+            } else {
+                prev->proximo = curr;
+            }
+            return curr->item;
         }
     }
-    return false;
+    return NULL;
 }
 
 ITEM *lista_get_inicio(LISTA *lista) {
-    return lista->inicio;
+    return lista->inicio->item;
 }
 
 ITEM *lista_get_proximo(LISTA *lista, ITEM *item) {
@@ -108,6 +136,7 @@ ITEM *lista_get_proximo(LISTA *lista, ITEM *item) {
             }
         }
     }
+    return NULL;
 }
 
 ITEM *lista_busca(LISTA *lista, int chave) {
@@ -132,8 +161,7 @@ bool lista_vazia(LISTA *lista) {
 }
 
 void lista_imprimir(LISTA *lista) {
-    for (NO *no = lista->inicio; no != lista->fim; no = no->proximo) {
+    for (NO *no = lista->inicio; no != NULL; no = no->proximo) {
         item_imprimir(no->item);
     }
-    printf("\n");
 }
