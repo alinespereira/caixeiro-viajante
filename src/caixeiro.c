@@ -93,7 +93,23 @@ void caixeiro_calcular_caminhos(ADJACENCIA *custos, int n_cidades, LISTA *atual,
 }
 
 int caixeiro_calcular_distancia(ADJACENCIA *custos, CAMINHO *caminho) {
-    return 0;
+    int partida, chegada, total = 0;
+    
+    partida = item_get_chave(lista_get_inicio(caminho->cidades));
+    
+    for (int i = 0; i < lista_tamanho(caminho->cidades); i++){
+        chegada = item_get_chave(lista_get_proximo(caminho->cidades, lista_busca(caminho->cidades, partida)));
+
+        total += aresta_get_custo(adjacencia_buscar_aresta(custos, partida, chegada));
+
+        partida = chegada;
+    }
+
+    chegada = item_get_chave(lista_get_inicio(caminho->cidades));
+
+    total += aresta_get_custo(adjacencia_buscar_aresta(custos, partida, chegada));
+    
+    return total;
 }
 
 void caixeiro_imprimir_caminho(CAMINHO *caminho) {
