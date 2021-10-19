@@ -61,65 +61,34 @@ bool caminho_set_custo(CAMINHO *caminho, int custo) {
     return false;
 }
 
-void caixeiro_calcular_caminhos(ADJACENCIA *custos, int n_cidades, LISTA *atual, LISTA *disponiveis, CAMINHO *melhor_caminho) {
-    // printf("disponíveis: %d\n", lista_tamanho(disponiveis));  // REMOVER
-    // lista_imprimir(disponiveis);                              // REMOVER
-    if (lista_tamanho(disponiveis) == 0) {
-        printf("agora eu calculo a distancia\n");  // REMOVER
+void caminho_apagar(CAMINHO **caminho) {
+}
+
+void caixeiro_calcular_caminhos_rec(ADJACENCIA *custos, LISTA *cidades, CAMINHO *melhor_caminho, int indice, int *contador) {
+    if (indice == lista_tamanho(cidades) - 1) {
+        (*contador)++;
+        printf("Caminhos calculados: %d\n", *contador);
         CAMINHO *caminho = caixeiro_criar_caminho();
-        // lista_imprimir(atual);  // REMOVER
-        caminho_set_cidades(caminho, atual);
-        int nova_distancia = caixeiro_calcular_distancia(custos, caminho);
+        caminho_set_cidades(caminho, lista_copiar(cidades));
+        int nova_distancia = 0;  // caixeiro_calcular_distancia(custos, caminho);
         caminho_set_custo(caminho, nova_distancia);
         if (nova_distancia != INT_MAX && nova_distancia < caminho_get_custo(melhor_caminho)) {
-            caminho_set_cidades(melhor_caminho, atual);
+            caminho_set_cidades(melhor_caminho, lista_copiar(cidades));
             caminho_set_custo(melhor_caminho, nova_distancia);
         }
+        caminho_apagar(&caminho);
     } else {
-        // printf("ainda nao\n");
-        for (int i = 0; i < lista_tamanho(disponiveis); i++) {
-            printf("i: %d\n", i);  // REMOVER
-            // lista_imprimir(disponiveis);  // REMOVER
-            ITEM *proximo = lista_buscar_posicao(disponiveis, i);
-            // printf("--\n");          // REMOVER
-            // item_imprimir(proximo);  // REMOVER
-            // printf("--\n");          // REMOVER
-            lista_inserir_fim(atual, proximo);
-            // lista_imprimir(atual);             // REMOVER
-            printf("--------------------\n");  // REMOVER
-            caixeiro_calcular_caminhos(custos, n_cidades, atual, disponiveis, melhor_caminho);
-            // printf("past here\n");  // REMOVER
-            if (lista_tamanho(disponiveis) == 0) {
-                lista_inserir_fim(disponiveis, proximo);
-            } else {
-                printf("i [else]: %d\n", i);
-                lista_inserir_posicao(disponiveis, proximo, i);
-            }
-            printf("disponíveis: %d\n", lista_tamanho(disponiveis));  // REMOVER
-            lista_buscar_posicao(atual, lista_tamanho(atual) - 1);
-            printf("atual      : %d\n", lista_tamanho(atual));     // REMOVER
-            lista_imprimir(disponiveis);                           // REMOVER
-            printf("---\n");                                       // REMOVER
-            lista_imprimir(atual);                                 // REMOVER
-            printf("----------------------------------------\n");  // REMOVER
+        for (int i = indice; i < lista_tamanho(cidades); i++) {
+            lista_trocar(cidades, i, indice);
+            caixeiro_calcular_caminhos_rec(custos, cidades, melhor_caminho, indice + 1, contador);
+            lista_trocar(cidades, i, indice);
         }
     }
+}
 
-    // do {
-    //     lista_inserir_fim(atual, proximo);
-    //     lista_remover(disponiveis, item_get_chave(proximo));
-    //     if (lista_tamanho(atual) == n_cidades) {
-    //         int nova_distancia = caixeiro_calcular_distancia(custos, melhor_caminho);
-    //         if (nova_distancia != INT_MAX && nova_distancia < caminho_get_custo(melhor_caminho)) {
-    //             caminho_set_cidades(melhor_caminho, atual);
-    //             caminho_set_custo(melhor_caminho, nova_distancia);
-    //         }
-    //     } else {
-    //         caixeiro_calcular_caminhos(custos, n_cidades, atual, disponiveis, melhor_caminho);
-    //         lista_inserir_fim(atual, proximo);
-    //         proximo = lista_get_proximo(disponiveis, proximo);
-    //     }
-    // } while (item_get_chave(proximo) < n_cidades);
+void caixeiro_calcular_caminhos(ADJACENCIA *custos, LISTA *cidades, CAMINHO *melhor_caminho) {
+    int contador = 0;
+    caixeiro_calcular_caminhos_rec(custos, cidades, melhor_caminho, 1, &contador);
 }
 
 int caixeiro_calcular_distancia(ADJACENCIA *custos, CAMINHO *caminho) {

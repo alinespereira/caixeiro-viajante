@@ -108,6 +108,58 @@ bool lista_inserir_posicao(LISTA *lista, ITEM *item, int pos) {
     return false;
 }
 
+LISTA *lista_copiar(LISTA *lista) {
+    if (lista) {
+        LISTA *copia = lista_criar();
+        for (NO *no = lista->inicio; no != NULL; no = no->proximo) {
+            ITEM *it = item_criar(item_get_chave(no->item), item_get_valor(no->item));
+            lista_inserir_fim(copia, it);
+        }
+        return copia;
+    }
+
+    return NULL;
+}
+
+bool lista_trocar(LISTA *lista, int i, int j) {
+    if (!lista || i >= lista_tamanho(lista) || j >= lista_tamanho(lista))
+        return false;
+    else if (i == j)
+        return true;
+
+    NO *n1 = NULL;
+    NO *n2 = lista->inicio;
+    for (int k = 0; k < i; k++) {
+        n1 = n2;
+        n2 = n2->proximo;
+    }
+
+    NO *n3 = NULL;
+    NO *n4 = lista->inicio;
+    for (int k = 0; k < j; k++) {
+        n3 = n4;
+        n4 = n4->proximo;
+    }
+
+    if (n1) {
+        n1->proximo = n4;
+    } else {
+        lista->inicio = n4;
+    }
+
+    if (n3) {
+        n3->proximo = n2;
+    } else {
+        lista->inicio = n2;
+    }
+
+    NO *tmp = n4->proximo;
+    n4->proximo = n2->proximo;
+    n2->proximo = tmp;
+
+    return true;
+}
+
 void lista_apagar(LISTA **lista) {
     if (lista) {
         lista_limpar(*lista);
@@ -120,7 +172,7 @@ bool lista_limpar(LISTA *lista) {
     if (lista) {
         for (NO *no = lista->inicio; !lista_vazia(lista); no = lista->inicio) {
             lista->inicio = no->proximo;
-            item_apagar(no->item);
+            item_apagar(&no->item);
             no->item = NULL;
             free(no);
             lista->tamanho--;
@@ -165,7 +217,7 @@ ITEM *lista_get_inicio(LISTA *lista) {
 
 ITEM *lista_get_proximo(LISTA *lista, ITEM *item) {
     if (lista) {
-        for (NO *no = lista->inicio; no != NULL; no = no->proximo) {
+        for (NO *no = lista->inicio; no != lista->fim; no = no->proximo) {
             if (no->item == item) {
                 return no->proximo->item;
             }

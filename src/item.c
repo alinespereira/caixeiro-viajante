@@ -18,7 +18,9 @@ ITEM *item_criar(int chave, int valor) {
     return item;
 }
 
-void item_apagar(ITEM *item) {
+void item_apagar(ITEM **item) {
+    free(*item);
+    *item = NULL;
 }
 
 int item_get_chave(ITEM *item) {

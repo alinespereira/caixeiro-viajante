@@ -11,20 +11,17 @@ int main() {
     scanf("%d", &n_cidades);
     ADJACENCIA *custos = caixeiro_ler_custos();
 
-    LISTA *atual = lista_criar();
-    ITEM *partida = item_criar(0, 1);
-    lista_inserir_fim(atual, partida);
-
-    LISTA *disponiveis = lista_criar();
-    for (int i = 1; i < n_cidades; i++) {
+    LISTA *cidades = lista_criar();
+    for (int i = 0; i < n_cidades; i++) {
         ITEM *it = item_criar(i, i + 1);
-        lista_inserir_fim(disponiveis, it);
+        lista_inserir_fim(cidades, it);
     }
 
     CAMINHO *melhor_caminho = caixeiro_criar_caminho();
-    caixeiro_calcular_caminhos(custos, n_cidades, atual, disponiveis, melhor_caminho);
-    // caixeiro_imprimir_caminho(melhor_caminho);
+    caixeiro_calcular_caminhos(custos, cidades, melhor_caminho);
+    caixeiro_imprimir_caminho(melhor_caminho);
 
     adjacencia_apagar(&custos);
+    lista_apagar(&cidades);
     return EXIT_SUCCESS;
 }
