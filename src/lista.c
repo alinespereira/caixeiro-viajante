@@ -54,7 +54,7 @@ ITEM *lista_buscar_posicao(LISTA *lista, int pos) {
     NO *no;
     if (pos == 0) {
         no = lista->inicio;
-        if (lista_tamanho(lista) == 0) {
+        if (lista_tamanho(lista) - 1 == 0) {
             lista->inicio = NULL;
             lista->fim = NULL;
         } else {
@@ -62,19 +62,19 @@ ITEM *lista_buscar_posicao(LISTA *lista, int pos) {
         }
     } else {
         NO *prev = lista->inicio;
-        for (int i = 0; i < pos; i++) {
+        for (int i = 1; i < pos; i++) {
             prev = prev->proximo;
         }
-        no = prev;
+        no = prev->proximo;
         if (pos == lista_tamanho(lista) - 1) {
             prev->proximo = NULL;
         } else {
-            prev->proximo = prev->proximo->proximo;
+            prev->proximo = no->proximo;
         }
     }
 
+    lista->tamanho--;
     if (no) {
-        lista->tamanho--;
         return no->item;
     } else {
         return NULL;
