@@ -123,28 +123,35 @@ void caixeiro_calcular_caminhos(ADJACENCIA *custos, int n_cidades, LISTA *atual,
 }
 
 int caixeiro_calcular_distancia(ADJACENCIA *custos, CAMINHO *caminho) {
-    // lista_imprimir(caminho->cidades);
-    // printf("n_cidades: %d\n", lista_tamanho(caminho->cidades));
+    /*lista_imprimir(caminho->cidades);
+    printf("n_cidades: %d\n", lista_tamanho(caminho->cidades));
     caixeiro_imprimir_caminho(caminho);
-    printf("---------------------\n");
-    // int partida, chegada, total = 0;
+    printf("---------------------\n");*/
+    int partida, chegada, total = 0;
+    ITEM *cidade_atual = lista_get_inicio(caminho->cidades);
 
-    // partida = item_get_chave(lista_get_inicio(caminho->cidades));
+    caixeiro_imprimir_caminho(caminho);
+    partida = item_get_valor(cidade_atual);
 
-    // for (int i = 0; i < lista_tamanho(caminho->cidades); i++) {
-    //     chegada = item_get_chave(lista_get_proximo(caminho->cidades, lista_busca(caminho->cidades, partida)));
+    for (int i = 0; i < lista_tamanho(caminho->cidades) - 1; i++) {
+        printf("partida: %d\n", partida);
+        cidade_atual = lista_get_proximo(caminho->cidades, cidade_atual);
 
-    //     total += aresta_get_custo(adjacencia_buscar_aresta(custos, partida, chegada));
+        chegada = item_get_valor(cidade_atual);
+        printf("chegada: %d\n", chegada);
 
-    //     partida = chegada;
-    // }
+        total += aresta_get_custo(adjacencia_buscar_aresta(custos, partida, chegada));
 
-    // chegada = item_get_chave(lista_get_inicio(caminho->cidades));
+        partida = chegada;
+    }
 
-    // total += aresta_get_custo(adjacencia_buscar_aresta(custos, partida, chegada));
+    chegada = item_get_valor(lista_get_inicio(caminho->cidades));
 
-    // return total;
-    return 0;
+    total += aresta_get_custo(adjacencia_buscar_aresta(custos, partida, chegada));
+
+    printf("total: %d\n", total);
+
+    return total;
 }
 
 void caixeiro_imprimir_caminho(CAMINHO *caminho) {
