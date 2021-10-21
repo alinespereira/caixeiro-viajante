@@ -1,6 +1,7 @@
 */*
 !*/*.c
 !*/*.h
+!*/*.in
 !Makefile
 !.editorconfig
 !*/.keep
