@@ -42,6 +42,7 @@ LISTA *caminho_get_cidades(CAMINHO *caminho) {
 
 bool caminho_set_cidades(CAMINHO *caminho, LISTA *cidades) {
     if (caminho && cidades) {
+        lista_apagar(&caminho->cidades);
         caminho->cidades = cidades;
         return true;
     }
@@ -63,12 +64,15 @@ bool caminho_set_custo(CAMINHO *caminho, int custo) {
 }
 
 void caminho_apagar(CAMINHO **caminho) {
+    if (*caminho) {
+        lista_apagar(&(*caminho)->cidades);
+    }
+    free(*caminho);
+    *caminho = NULL;
 }
 
-void caixeiro_calcular_caminhos_rec(ADJACENCIA *custos, LISTA *cidades, CAMINHO *melhor_caminho, int indice, int *contador) {
+void caixeiro_calcular_caminhos_rec(ADJACENCIA *custos, LISTA *cidades, CAMINHO *melhor_caminho, int indice) {
     if (indice == lista_tamanho(cidades) - 1) {
-        (*contador)++;
-        printf("Caminhos calculados: %d\n", *contador);
         CAMINHO *caminho = caixeiro_criar_caminho();
         caminho_set_cidades(caminho, lista_copiar(cidades));
         int nova_distancia = caixeiro_calcular_distancia(custos, caminho);
@@ -81,15 +85,14 @@ void caixeiro_calcular_caminhos_rec(ADJACENCIA *custos, LISTA *cidades, CAMINHO 
     } else {
         for (int i = indice; i < lista_tamanho(cidades); i++) {
             lista_trocar(cidades, i, indice);
-            caixeiro_calcular_caminhos_rec(custos, cidades, melhor_caminho, indice + 1, contador);
+            caixeiro_calcular_caminhos_rec(custos, cidades, melhor_caminho, indice + 1);
             lista_trocar(cidades, i, indice);
         }
     }
 }
 
 void caixeiro_calcular_caminhos(ADJACENCIA *custos, LISTA *cidades, CAMINHO *melhor_caminho) {
-    int contador = 0;
-    caixeiro_calcular_caminhos_rec(custos, cidades, melhor_caminho, 1, &contador);
+    caixeiro_calcular_caminhos_rec(custos, cidades, melhor_caminho, 1);
 }
 
 int caixeiro_calcular_distancia(ADJACENCIA *custos, CAMINHO *caminho) {
@@ -104,7 +107,7 @@ int caixeiro_calcular_distancia(ADJACENCIA *custos, CAMINHO *caminho) {
         chegada = item_get_valor(cidade_atual);
 
         ARESTA *aresta = adjacencia_buscar_aresta(custos, partida, chegada);
-        if(!aresta) 
+        if (!aresta)
             return INT_MAX;
 
         total += aresta_get_custo(aresta);
@@ -115,7 +118,7 @@ int caixeiro_calcular_distancia(ADJACENCIA *custos, CAMINHO *caminho) {
     chegada = item_get_valor(lista_get_inicio(caminho->cidades));
 
     ARESTA *aresta = adjacencia_buscar_aresta(custos, partida, chegada);
-    if(!aresta) 
+    if (!aresta)
         return INT_MAX;
 
     total += aresta_get_custo(aresta);
