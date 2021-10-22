@@ -7,7 +7,6 @@
 
 #include "adjacencia.h"
 #include "lista.h"
-#include "vetor.h"
 #include "aresta.h"
 
 typedef struct _caminho CAMINHO;
@@ -22,7 +21,6 @@ void caminho_apagar(CAMINHO **caminho);
 void caixeiro_calcular_caminhos(ADJACENCIA *custos, LISTA *cidades, CAMINHO *melhor_caminho);
 int caixeiro_calcular_distancia(ADJACENCIA *custos, CAMINHO *caminho);
 void caixeiro_imprimir_caminho(CAMINHO *caminho);
-CAMINHO *caixeiro_calcular_menor_caminho();
 int caixeiro_calcular_distancia(ADJACENCIA *custos, CAMINHO *caminho);
 
 #endif

@@ -10,16 +10,12 @@ typedef struct _lista LISTA;
 
 LISTA *lista_criar();
 bool lista_inserir_fim(LISTA *lista, ITEM *item);
-ITEM *lista_buscar_posicao(LISTA *lista, int pos);
-bool lista_inserir_posicao(LISTA *lista, ITEM *item, int pos);
 LISTA *lista_copiar(LISTA *lista);
 bool lista_trocar(LISTA *lista, int i, int j);
 void lista_apagar(LISTA **lista);
 bool lista_limpar(LISTA *lista);
-ITEM *lista_remover(LISTA *lista, int chave);
 ITEM *lista_get_inicio(LISTA *lista);
 ITEM *lista_get_proximo(LISTA *lista, ITEM *item);
-ITEM *lista_busca(LISTA *lista, int chave);
 int lista_tamanho(LISTA *lista);
 bool lista_vazia(LISTA *lista);
 void lista_imprimir(LISTA *lista);
