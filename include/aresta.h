@@ -7,8 +7,6 @@
 typedef struct _aresta ARESTA;
 
 ARESTA *aresta_criar(int p1, int p2, int custo);
-bool aresta_set_p1(ARESTA *aresta, int p1);
-bool aresta_set_p2(ARESTA *aresta, int p2);
 int aresta_get_p1(ARESTA *aresta);
 int aresta_get_p2(ARESTA *aresta);
 bool aresta_set_custo(ARESTA *aresta, int custo);

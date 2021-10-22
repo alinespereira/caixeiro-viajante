@@ -7,6 +7,7 @@ struct _caminho {
     int custo;
 };
 
+//lê as entradas do arquivo
 ADJACENCIA *caixeiro_ler_custos() {
     ADJACENCIA *custos = adjacencia_criar();
 
@@ -92,10 +93,7 @@ void caixeiro_calcular_caminhos(ADJACENCIA *custos, LISTA *cidades, CAMINHO *mel
 }
 
 int caixeiro_calcular_distancia(ADJACENCIA *custos, CAMINHO *caminho) {
-    /*lista_imprimir(caminho->cidades);
-    printf("n_cidades: %d\n", lista_tamanho(caminho->cidades));
-    caixeiro_imprimir_caminho(caminho);
-    printf("---------------------\n");*/
+
     int partida, chegada, total = 0;
     ITEM *cidade_atual = lista_get_inicio(caminho->cidades);
 
