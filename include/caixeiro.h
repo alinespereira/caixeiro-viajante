@@ -7,6 +7,7 @@
 
 #include "adjacencia.h"
 #include "lista.h"
+#include "aresta.h"
 
 typedef struct _caminho CAMINHO;
 
