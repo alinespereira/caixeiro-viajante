@@ -84,9 +84,11 @@ void caixeiro_calcular_caminhos_rec(ADJACENCIA *custos, LISTA *cidades, CAMINHO 
         caminho_apagar(&caminho);
     } else {
         for (int i = indice; i < lista_tamanho(cidades); i++) {
-            lista_trocar(cidades, i, indice);
-            caixeiro_calcular_caminhos_rec(custos, cidades, melhor_caminho, indice + 1);
-            lista_trocar(cidades, i, indice);
+            if (adjacencia_buscar_aresta(custos, i, indice)) {
+                lista_trocar(cidades, i, indice);
+                caixeiro_calcular_caminhos_rec(custos, cidades, melhor_caminho, indice + 1);
+                lista_trocar(cidades, i, indice);
+            }
         }
     }
 }
@@ -96,7 +98,6 @@ void caixeiro_calcular_caminhos(ADJACENCIA *custos, LISTA *cidades, CAMINHO *mel
 }
 
 int caixeiro_calcular_distancia(ADJACENCIA *custos, CAMINHO *caminho) {
-
     int partida, chegada, total = 0;
     ITEM *cidade_atual = lista_get_inicio(caminho->cidades);
 
