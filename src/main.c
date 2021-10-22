@@ -1,26 +1,28 @@
 #include <stdio.h>
+#include <stdlib.h>
 
+#include "adjacencia.h"
 #include "caixeiro.h"
-#include "matriz.h"
-#include "vetor.h"
+#include "lista.h"
 
 int main() {
-    MATRIZ *distancias = caixeiro_ler_dados();
-    int n_caminhos = 0;
-    CAMINHO **caminho = NULL;
-    int n_cidades = matriz_get_tamanho(distancias);
-    VETOR *disponiveis = vetor_criar(n_cidades - 1);
+    int n_cidades;
 
-    for (int i = 1; i < n_cidades; i++)
-        vetor_set_elemento(disponiveis, i - 1, i);
+    scanf("%d", &n_cidades);
+    ADJACENCIA *custos = caixeiro_ler_custos();
 
-    matriz_imprimir(distancias);
+    LISTA *cidades = lista_criar();
+    for (int i = 0; i < n_cidades; i++) {
+        ITEM *it = item_criar(i, i + 1);
+        lista_inserir_fim(cidades, it);
+    }
 
-    caixeiro_calcular_caminhos(distancias, disponiveis, caminho, &n_caminhos);
+    CAMINHO *melhor_caminho = caixeiro_criar_caminho();
+    caixeiro_calcular_caminhos(custos, cidades, melhor_caminho);
+    caixeiro_imprimir_caminho(melhor_caminho);
 
-    matriz_imprimir(distancias);
-
-    matriz_limpar(distancias);
-
-    return 0;
+    caminho_apagar(&melhor_caminho);
+    adjacencia_apagar(&custos);
+    lista_apagar(&cidades);
+    return EXIT_SUCCESS;
 }

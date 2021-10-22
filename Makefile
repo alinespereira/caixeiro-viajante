@@ -4,8 +4,7 @@ BIN       := ./bin
 OBJ       := ./obj
 INCLUDE   := ./include
 SRC       := ./src
-MAIN_FILE := $(SRC)/main.c
-SRC_FILES := $(filter-out $(MAIN_FILE), $(wildcard $(SRC)/*.c))
+SRC_FILES := $(wildcard $(SRC)/*.c)
 OBJ_FILES := $(patsubst $(SRC)/%.c,$(OBJ)/%.o,$(SRC_FILES))
 
 PROGRAM   := $(BIN)/main
@@ -16,7 +15,7 @@ LEAKFLAGS := --leak-check=full --show-leak-kinds=all --track-origins=yes
 all: $(PROGRAM)
 
 $(PROGRAM): $(OBJ_FILES)
-	$(CC) $(CFLAGS) $^ $(MAIN_FILE) -o $@
+	$(CC) $(CFLAGS) $^ -o $@
 
 $(OBJ)/%.o: $(SRC)/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
