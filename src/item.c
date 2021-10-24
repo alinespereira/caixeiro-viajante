@@ -38,5 +38,5 @@ int item_get_valor(ITEM *item) {
 }
 
 void item_imprimir(ITEM *item) {
-    printf("[%d] %d\n", item_get_chave(item), item_get_valor(item));
+    printf("%d",item_get_valor(item));
 }

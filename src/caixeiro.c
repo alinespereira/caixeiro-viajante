@@ -71,7 +71,7 @@ void caminho_apagar(CAMINHO **caminho) {
     *caminho = NULL;
 }
 
-void caixeiro_calcular_caminhos_rec(ADJACENCIA *custos, LISTA *cidades, CAMINHO *melhor_caminho, int indice) {
+void caixeiro_calcular_caminhos_rec(ADJACENCIA *custos, LISTA *cidades, CAMINHO *melhor_caminho, int indice, int *counter) {
     if (indice == lista_tamanho(cidades) - 1) {
         CAMINHO *caminho = caixeiro_criar_caminho();
         caminho_set_cidades(caminho, lista_copiar(cidades));
@@ -84,17 +84,24 @@ void caixeiro_calcular_caminhos_rec(ADJACENCIA *custos, LISTA *cidades, CAMINHO 
         caminho_apagar(&caminho);
     } else {
         for (int i = indice; i < lista_tamanho(cidades); i++) {
-            if (adjacencia_buscar_aresta(custos, i, indice)) {
+            //printf("i = %d e indice = %d\n", i, indice);
+            //printf("caminho número: %d\n", *counter);
+            (*counter)++;
+            if (adjacencia_existe_aresta(custos, i, indice)) {
                 lista_trocar(cidades, i, indice);
-                caixeiro_calcular_caminhos_rec(custos, cidades, melhor_caminho, indice + 1);
+                lista_imprimir(cidades);
+                caixeiro_calcular_caminhos_rec(custos, cidades, melhor_caminho, indice + 1, counter);
                 lista_trocar(cidades, i, indice);
             }
+            if (indice == 1)
+                printf("fim do for %d\n\n", i);
         }
     }
 }
 
 void caixeiro_calcular_caminhos(ADJACENCIA *custos, LISTA *cidades, CAMINHO *melhor_caminho) {
-    caixeiro_calcular_caminhos_rec(custos, cidades, melhor_caminho, 1);
+    int counter = 1;
+    caixeiro_calcular_caminhos_rec(custos, cidades, melhor_caminho, 1, &counter);
 }
 
 int caixeiro_calcular_distancia(ADJACENCIA *custos, CAMINHO *caminho) {

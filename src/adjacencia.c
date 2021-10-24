@@ -80,3 +80,22 @@ void adjacencia_apagar(ADJACENCIA **a)
     free(*a);
     a = NULL;
 }
+
+bool *adjacencia_existe_aresta(ADJACENCIA *a, int p1, int p2)
+{
+    if (p1 == p2)
+        return true;
+
+    if (a)
+    {
+        for (int i = 0; i < adjacencia_get_n_arestas(a); i++)
+        {
+            if (aresta_mesmo_trajeto(a->arestas[i], p1, p2))
+            {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}

@@ -191,5 +191,8 @@ void lista_imprimir(LISTA *lista)
     for (NO *no = lista->inicio; no != NULL; no = no->proximo)
     {
         item_imprimir(no->item);
+        printf(" -> ");
     }
+    item_imprimir(lista->inicio->item);
+    printf("\n");
 }
