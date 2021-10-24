@@ -5,6 +5,7 @@
 #include <stdlib.h>
 
 #include "aresta.h"
+#include "lista.h"
 
 #define TAMANHO_INVALIDO -1
 
@@ -16,6 +17,6 @@ int adjacencia_get_n_arestas(ADJACENCIA *a);
 ARESTA *adjacencia_buscar_aresta(ADJACENCIA *a, int p1, int p2);
 bool adjacencia_vazia(ADJACENCIA *a);
 void adjacencia_apagar(ADJACENCIA **a);
-bool *adjacencia_existe_aresta(ADJACENCIA *a, int p1, int p2);
+bool adjacencia_existem_arestas(ADJACENCIA *custos, int i, int indice, LISTA *cidades);
 
 #endif

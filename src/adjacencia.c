@@ -81,7 +81,7 @@ void adjacencia_apagar(ADJACENCIA **a)
     a = NULL;
 }
 
-bool *adjacencia_existe_aresta(ADJACENCIA *a, int p1, int p2)
+bool adjacencia_existe_aresta(ADJACENCIA *a, int p1, int p2)
 {
     if (p1 == p2)
         return true;
@@ -98,4 +98,11 @@ bool *adjacencia_existe_aresta(ADJACENCIA *a, int p1, int p2)
     }
 
     return false;
+}
+
+bool adjacencia_existem_arestas(ADJACENCIA *custos, int i, int indice, LISTA *cidades)
+{
+    //printf("get valor: indice: %d e %d\n i: %d e %d\n", indice, lista_get_valor(cidades, indice - 1), i, lista_get_valor(cidades, i - 1));
+    return adjacencia_existe_aresta(custos, lista_get_valor(cidades, i), lista_get_valor(cidades, indice - 1) && 
+           adjacencia_existe_aresta(custos, lista_get_valor(cidades, i - 1), lista_get_valor(cidades, indice)));
 }

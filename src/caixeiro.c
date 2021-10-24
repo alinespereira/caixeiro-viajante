@@ -87,12 +87,12 @@ void caixeiro_calcular_caminhos_rec(ADJACENCIA *custos, LISTA *cidades, CAMINHO 
             //printf("i = %d e indice = %d\n", i, indice);
             //printf("caminho número: %d\n", *counter);
             (*counter)++;
-            if (adjacencia_existe_aresta(custos, i, indice)) {
+            //if (adjacencia_existem_arestas(custos, i, indice, cidades)) {
                 lista_trocar(cidades, i, indice);
                 lista_imprimir(cidades);
                 caixeiro_calcular_caminhos_rec(custos, cidades, melhor_caminho, indice + 1, counter);
                 lista_trocar(cidades, i, indice);
-            }
+            //}
             if (indice == 1)
                 printf("fim do for %d\n\n", i);
         }

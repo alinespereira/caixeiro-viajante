@@ -19,5 +19,6 @@ ITEM *lista_get_proximo(LISTA *lista, ITEM *item);
 int lista_tamanho(LISTA *lista);
 bool lista_vazia(LISTA *lista);
 void lista_imprimir(LISTA *lista);
+int lista_get_valor(LISTA *lista, int chave);
 
 #endif

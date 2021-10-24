@@ -196,3 +196,17 @@ void lista_imprimir(LISTA *lista)
     item_imprimir(lista->inicio->item);
     printf("\n");
 }
+
+int lista_get_valor(LISTA *lista, int chave)
+{
+    if (lista && chave < lista_tamanho(lista))
+    {
+        NO *no = lista->inicio;
+        for (int i = 0; i < chave; i++)
+        {
+            no = no->proximo;
+        }
+        return item_get_valor(no->item);
+    }
+    return 0;
+}
