@@ -126,7 +126,7 @@ int caixeiro_calcular_distancia(ADJACENCIA *custos, CAMINHO *caminho) {
 }
 
 void caixeiro_imprimir_caminho(CAMINHO *caminho) {
-    printf("caminho:\n");
+    printf("caminho: ");
     lista_imprimir(caminho->cidades);
-    printf("distancia = %d\n", caminho->custo);
+    printf(" distancia = %d\n", caminho->custo);
 }
