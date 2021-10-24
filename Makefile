@@ -1,16 +1,17 @@
-CC        := gcc
+CC            := gcc
 
-BIN       := ./bin
-OBJ       := ./obj
-INCLUDE   := ./include
-SRC       := ./src
-SRC_FILES := $(wildcard $(SRC)/*.c)
-OBJ_FILES := $(patsubst $(SRC)/%.c,$(OBJ)/%.o,$(SRC_FILES))
+BIN           := ./bin
+OBJ           := ./obj
+INCLUDE       := ./include
+SRC           := ./src
+SRC_FILES     := $(wildcard $(SRC)/*.c)
+OBJ_FILES     := $(patsubst $(SRC)/%.c,$(OBJ)/%.o,$(SRC_FILES))
 
-PROGRAM   := $(BIN)/main
+PROGRAM       := $(BIN)/main
 
-CFLAGS    := -I$(INCLUDE) -Wall -Wpedantic -std=c99
-LEAKFLAGS := --leak-check=full --show-leak-kinds=all --track-origins=yes
+CFLAGS        := -I$(INCLUDE) -Wall -Wpedantic -std=c99
+LEAKFLAGS     := --leak-check=full --show-leak-kinds=all --track-origins=yes 
+PROFILEFLAGS  := --tool=massif --massif-out-file=profile.out --time-unit=ms
 
 all: $(PROGRAM)
 
@@ -32,3 +33,7 @@ zip:
 valgrind: CFLAGS += -g
 valgrind: $(PROGRAM)
 	valgrind $(LEAKFLAGS) $(PROGRAM)
+
+profile: CFLAGS += -g
+profile: $(PROGRAM)
+	valgrind $(PROFILEFLAGS) $(PROGRAM)
