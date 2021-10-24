@@ -84,11 +84,9 @@ void caixeiro_calcular_caminhos_rec(ADJACENCIA *custos, LISTA *cidades, CAMINHO 
         caminho_apagar(&caminho);
     } else {
         for (int i = indice; i < lista_tamanho(cidades); i++) {
-            if (adjacencia_buscar_aresta(custos, i, indice)) {
-                lista_trocar(cidades, i, indice);
-                caixeiro_calcular_caminhos_rec(custos, cidades, melhor_caminho, indice + 1);
-                lista_trocar(cidades, i, indice);
-            }
+            lista_trocar(cidades, i, indice);
+            caixeiro_calcular_caminhos_rec(custos, cidades, melhor_caminho, indice + 1);
+            lista_trocar(cidades, i, indice);
         }
     }
 }
