@@ -30,6 +30,10 @@ clean:
 zip:
 	zip -r caixeiro-viajante.zip Makefile src include bin obj -x "*/*.o" -x "bin/main"
 
+time: CFLAGS += -DTIME
+time: $(PROGRAM)
+	$<
+
 valgrind: CFLAGS += -g
 valgrind: $(PROGRAM)
 	valgrind $(LEAKFLAGS) $(PROGRAM)

@@ -2,6 +2,10 @@
 
 #include <limits.h>
 
+#ifdef TIME
+#include <time.h>
+#endif
+
 struct _caminho {
     LISTA *cidades;
     int custo;
@@ -92,7 +96,13 @@ void caixeiro_calcular_caminhos_rec(ADJACENCIA *custos, LISTA *cidades, CAMINHO 
 }
 
 void caixeiro_calcular_caminhos(ADJACENCIA *custos, LISTA *cidades, CAMINHO *melhor_caminho) {
+#ifdef TIME
+    clock_t start = clock();
+#endif
     caixeiro_calcular_caminhos_rec(custos, cidades, melhor_caminho, 1);
+#ifdef TIME
+    printf("Cidades: %d, Tempo: %lfs\n", lista_tamanho(cidades), (double)(clock() - start) / CLOCKS_PER_SEC);
+#endif
 }
 
 int caixeiro_calcular_distancia(ADJACENCIA *custos, CAMINHO *caminho) {
